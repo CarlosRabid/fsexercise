@@ -16,13 +16,14 @@ const App = function (props) {
 	// const [email, setEmail] = useState('');
 	useEffect(() => {
 		axios
-			.get("/routes/users")
+			.get("/data")
+			.then(console.log(users))
 			.then((users) => setUsers(users))
 			.catch((err) => console.log(err));
 	}, []);
 
-	async function submitForm() {
-		if (stateObj === "") {
+	function submitForm() {
+		if (stateObj.username === "") {
 			alert("Please fill the username field");
 			return;
 		}
@@ -38,8 +39,8 @@ const App = function (props) {
     )
     .then(function () {
       console.log("created")
-      alert("Account created successfully");
-      window.location.reload();
+    //   alert("Account created successfully");
+    //   window.location.reload();
     })
     .catch(function () {
 				alert("Could not creat account. Please try again");
@@ -56,13 +57,13 @@ const App = function (props) {
 			) : (
 				<>
 					<h2>Available Users</h2>
-					<ol>
-						{users.map((user, index) => (
+					{/* <ol> */}
+						{/* {users.map((user, index) => (
 							<li key={index}>
 								Name: {user.name} - Email: {user.email}
 							</li>
-						))}
-					</ol>
+						))} */}
+					{/* </ol> */}
 				</>
 			)}
 
