@@ -9,11 +9,11 @@ import Inventory from "./Components/actions/inventory";
 import * as constant from './Components/actions/constant'
 const dinamicRoute = window.location.host.includes("localhost") ? constant.LOCAL_GET : constant.PROD_GET
 
-const App = function () {
+const App = function (props) {
 	const [users, setUsers] = useState(null);
 
-	const [username, setUsername] = useState("");
-	const [email, setEmail] = useState("");
+	const [stateObj, setUsername] = useState({username: '', email: ''});
+	// const [email, setEmail] = useState('');
 	useEffect(() => {
 		axios
 			.get("/routes/users")
@@ -21,34 +21,36 @@ const App = function () {
 			.catch((err) => console.log(err));
 	}, []);
 
-	function submitForm() {
-		if (username === "") {
+	async function submitForm() {
+		if (stateObj === "") {
 			alert("Please fill the username field");
 			return;
 		}
-		if (email === "") {
+		if (stateObj.email === "") {
 			alert("Please fill the email field");
 			return;
-		}
+    }
 		axios
-			.post("/routes/users", {
-				username: username,
-				email: email,
-			})
-			.then(function () {
-				alert("Account created successfully");
-				window.location.reload();
-			})
-			.catch(function () {
+    .post('/offerings', {
+      username: stateObj.username,
+      email: stateObj.email,
+    }
+    )
+    .then(function () {
+      console.log("created")
+      alert("Account created successfully");
+      window.location.reload();
+    })
+    .catch(function () {
 				alert("Could not creat account. Please try again");
 			});
   }
   
   return (
 		<>
-			<h1>My Project</h1>
+			<h1>Javascript Exercise</h1>
 			{users === null ? (
-				<p>Loading...</p>
+				<p>No data found...</p>
 			) : users.length === 0 ? (
 				<p>No user available</p>
 			) : (
@@ -66,14 +68,18 @@ const App = function () {
 
 			<form onSubmit={submitForm}>
 				<input
-					onChange={(e) => setUsername(e.target.value)}
+					onChange={(e) => setUsername({...stateObj, username: e.target.value})}
 					type="text"
-					placeholder="Enter your username"
-				/>
+          placeholder="Enter your username"
+          value={stateObj.username}
+          name="username"
+          />
 				<input
-					onChange={(e) => setEmail(e.target.value)}
+					onChange={(e) => setUsername({...stateObj, email: e.target.value})}
 					type="text"
 					placeholder="Enter your email address"
+          value={stateObj.email}
+          name="email"
 				/>
 				<input type="submit" />
 			</form>

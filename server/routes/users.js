@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router()
 
-const User = require('./models/user');
+const User = require('./models/User');
 
 router.get('/', (req, res) => {
     User.find()
@@ -9,13 +9,15 @@ router.get('/', (req, res) => {
         .catch(err => console.log(err))
 })
 
-router.post('/', (req, res) => {
-    const { name, email } = req.body;
+router.post('/offerings', (req, res) => {
+    console.log("post route")
+    const { username, email } = req.body;
+    console.log(req.body)
     const newUser = new User({
-        name: name, email: email
+        username: username, email: email
     })
     newUser.save()
-        .then(() => res.json({
+        .then(() => res.send({
             message: "Created account successfully"
         }))
         .catch(err => res.status(400).json({
