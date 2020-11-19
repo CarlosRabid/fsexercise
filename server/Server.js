@@ -3,18 +3,20 @@ const mongoose = require("mongoose");
 const path = require("path");
 const bodyParser = require("body-parser");
 const app = express();
-const PORT = process.env.PORT || 4328;
+const PORT = process.env.PORT || 5000;
 const router = express.Router();
 const request = require("request");
 require('./db/database')
 
 let axios = require("axios");
-const { response } = require("express");
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(express.static(path.join(__dirname, 'components')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const users = require('/routes/users');
+app.use('/routes/users', users);
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -26,7 +28,7 @@ app.use(function (req, res, next) {
   next();
 });
 // mongoose.set('debug', true)
-mongoose.connect(process.env.CLEARDB_DATABASE_URL || "mongodb://localhost/fullexg", { useNewUrlParser: true });
+mongoose.connect(process.env.CLEARDB_DATABASE_URL || "mongodb://localhost/test", { useNewUrlParser: true });
 // mongoose.connect("mongodb://localhost/fullexg", { useNewUrlParser: true });
 
 const Schema = mongoose.Schema;
@@ -112,4 +114,6 @@ app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
+});
