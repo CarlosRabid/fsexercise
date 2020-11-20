@@ -21,7 +21,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "serve -s build",
     "install": "npm run build",
     "heroku-prebuild": "npm install",
     "heroku-postbuild": "npm install && npm run build",
