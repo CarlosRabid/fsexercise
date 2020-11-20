@@ -5,7 +5,7 @@ const request = require("request");
 const options = {
   keepAlive: 1,
   connectTimeoutMS: 30000,
-  /* reconnectTries: 30, reconnectInterval: 5000,*/ useUnifiedTopology: true,
+   useUnifiedTopology: true,
 };
 const url =
   "mongodb+srv://aurixadmin:2020Mongo$@clusterfsexercise.mgcgd.mongodb.net/test?retryWrites=true&w=majority";
